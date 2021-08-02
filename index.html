@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<script src="http://d3js.org/d3.v4.min.js"></script>
+<meta charset="utf-8">
+<style>
+    body {
+        background-color: floralwhite;
+        margin-left:10%;
+        margin-right:10%;
+        margin-bottom:10%;
+    }
+    h1 {
+        color:dodgerblue;
+        font-family:verdana;
+        text-align:center;
+    }
+    .chart rect{ fill:steelblue; }
+    #tooltip {
+        opacity: 0;
+        position: absolute;
+        text-align: center;
+        width: 60px; height: 40px;
+        background: white;
+        border: 0px;
+    }
+    #intro_text {
+        margin: 0px auto;
+        width: 600px;
+        height: 250px;
+        vertical-align: middle;
+    }
+    #phase_description_div {
+        margin: 0px auto;
+        width: 600px;
+        height: 150px;
+        vertical-align: middle;
+    }
+    #description_1 {
+        margin: 0px auto;
+        width: 600px;
+        height: 70px;
+        vertical-align: middle;
+    }
+    #description_2 {
+        margin: 0px auto;
+        width: 600px;
+        height: 70px;
+        vertical-align: middle;
+    }
+    #presentation_text {
+        margin: 0px auto;
+        width: 600px;
+        height: 250px;
+        vertical-align: middle;
+    }
+    #param_buttons {
+        text-align: center;
+    }
+
+</style>
+
+<html><body>
+    <h1> 
+        Visualizing Bankruptcy Filings Before, During, and After the 2008 Financial Crisis 
+    </h1>
+    <div id = "intro_text">
+        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;"> 
+            The 2008 Financial Crisis is one of the most notorious economic upsets in the history of the United States. 
+            Economists, mathematicians, and scientists have devoted their careers to analyzing and studying the market
+            in order to ensure that institutions in the American private and public sectors are equipped and ready for
+            any other potential downturns. Data visualization can be utilized to examine and communicate trends and concepts
+            in a way that makes them more clear. 
+            <br>
+            <br>
+            <br>
+            <br>
+            It's important to appreciate at a high level just how powerful and damaging the 2008 crisis really was. 
+            To get started, check out the visualization below to see how serious the U.S. Financial Crisis was in comparison to 
+            63 financial crises in advanced economies. 
+        </p>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div id = "description_1">
+        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+            The decline in output peak to trough (real GDP per capital) was 9.6% for 63 financial crises in advanced economies 
+            between the years of 1857 to 2013 (156 years). The drop in GDP during the 2008 financial crisis alone was a whopping 
+            5.25% (only 1 year).
+        </p>
+    </div>
+    <p> <span id = "data"></span></p>
+    <div id = "tooltip"></div>
+
+    <div id = "comparison1"></div>
+        <script>
+            var svg = d3.select("body")
+            .append("svg")
+                .attr("width", 1000)
+                .attr("height", 400)
+                .style("display", "block")
+                .style("margin", "auto")
+
+            var x = d3.scaleBand()
+                .domain(["U.S. Financial Crisis", "63 crisies"])       
+                .range([100, 800])                    
+                .padding([0.8])                      
+
+            svg
+            .append("g")
+            .attr("transform", "translate(0,300)")     
+            .call(d3.axisBottom(x));
+
+            svg
+            .append("rect")
+                .attr("x", x("63 crisies") )
+                .attr("y",100)
+                .attr("height", 200)
+                .attr("width", x.bandwidth() )
+                .style("fill", "#69b3a2")
+                .style("opacity", 0.5)
+                .on("mouseover", function(d){
+                tooltip.style("opacity", 1)
+                        .style("left", (d3.event.pageX)+"px")
+                        .style("top", (d3.event.pageY)+"px")
+                        .html("GDP Dropped 9.6" + "%");
+                })
+                .on("mouseout", function() { tooltip.style("opacity", 0) });
+            
+            svg.append("text")
+                .attr("x", x("63 crisies")+10)
+                .attr("y",90)
+                .text("9.6%")
+
+            svg
+            .append("rect")
+                .attr("x", x("U.S. Financial Crisis"))
+                .attr("y",141)
+                .attr("height", 159)
+                .attr("width", x.bandwidth() )
+                .style("fill", "#69b3a2")
+                .style("opacity", 0.5)
+                .on("mouseover", function(d){
+                tooltip.style("opacity", 1)
+                        .style("left", (d3.event.pageX)+"px")
+                        .style("top", (d3.event.pageY)+"px")
+                        .html("GDP Dropped 9.6" + "%");
+                })
+                .on("mouseout", function() { tooltip.style("opacity", 0) });
+            
+            svg.append("text")
+                .attr("x", x("U.S. Financial Crisis")+10)
+                .attr("y",131)
+                .text("5.25%")
+
+        </script>
+    </div>
+    <div id = "description_2">
+        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+            The relative briefness of the recession is also a testament to the record breaking destruction of the 2008 financial
+            crisis which lasted 1.5 years as oppose to the 2.9 year average for 63 crises in advanced economies.  
+        </p>
+    </div>
+    <div name = "comparison2">
+        <script>
+            var svg = d3.select("body")
+            .append("svg")
+                .attr("width", 1000)
+                .attr("height", 400)
+                .style("display", "block")
+                .style("margin", "auto")
+
+            var x = d3.scaleBand()
+                .domain(["U.S. Financial Crisis", "63 crisies"])       
+                .range([100, 800])                 
+                .padding([0.8])                
+
+            svg
+            .append("g")
+            .attr("transform", "translate(0,230)")    
+            .call(d3.axisBottom(x));
+
+            svg
+            .append("rect")
+                .attr("x", x("U.S. Financial Crisis") )
+                .attr("y",100)
+                .attr("height", 130)
+                .attr("width", x.bandwidth() )
+                .style("fill", "#69b3a2")
+                .style("opacity", 0.5)
+                .on("mouseover", function(d){
+                tooltip.style("opacity", 1)
+                        .style("left", (d3.event.pageX)+"px")
+                        .style("top", (d3.event.pageY)+"px")
+                        .html("GDP Dropped 9.6" + "%");
+                })
+                .on("mouseout", function() { tooltip.style("opacity", 0) });
+            
+            svg.append("text")
+                .attr("x", x("U.S. Financial Crisis"))
+                .attr("y",90)
+                .text("2.9 years")
+
+            svg
+            .append("rect")
+                .attr("x", x("63 crisies"))
+                .attr("y",163)
+                .attr("height", 67)
+                .attr("width", x.bandwidth() )
+                .style("fill", "#69b3a2")
+                .style("opacity", 0.5)
+                .on("mouseover", function(d){
+                tooltip.style("opacity", 1)
+                        .style("left", (d3.event.pageX)+"px")
+                        .style("top", (d3.event.pageY)+"px")
+                        .html("GDP Dropped 9.6" + "%");
+                })
+                .on("mouseout", function() { tooltip.style("opacity", 0) });
+            
+            svg.append("text")
+                .attr("x", x("63 crisies"))
+                .attr("y",131)
+                .text("1.5 years")
+
+        </script>
+    </div>
+    <div id = "description_2">
+        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+            The recovery time of the U.S. crises was 1.8 years shorter than the average for the 63 crises. This is most
+            likely because of the vastly superior resources and staff that the United States has relative to many other
+            nations. Ending this introduction on a positive note, the same resiliance that enabled the United States to 
+            recover quickly from the recession, will help the nation prepare for and predict any future crisies. 
+        </p>
+    </div>
+    <div name = "comparison3">
+        <script>
+            var svg = d3.select("body")
+            .append("svg")
+                .attr("width", 1000)
+                .attr("height", 460)
+                .style("display", "block")
+                .style("margin", "auto")
+
+            var x = d3.scaleBand()
+                .domain(["U.S. Financial Crisis", "63 crisies"])       
+                .range([100, 800])                    
+                .padding([0.8])                        
+
+            svg
+            .append("g")
+            .attr("transform", "translate(0,427)")     
+            .call(d3.axisBottom(x));
+
+            svg
+            .append("rect")
+                .attr("x", x("63 crisies") )
+                .attr("y",100)
+                .attr("height", 327)
+                .attr("width", x.bandwidth() )
+                .style("fill", "#69b3a2")
+                .style("opacity", 0.5)
+                .on("mouseover", function(d){
+                tooltip.style("opacity", 1)
+                        .style("left", (d3.event.pageX)+"px")
+                        .style("top", (d3.event.pageY)+"px")
+                        .html("GDP Dropped 9.6" + "%");
+                })
+                .on("mouseout", function() { tooltip.style("opacity", 0) });
+            
+            svg.append("text")
+                .attr("x", x("63 crisies"))
+                .attr("y",90)
+                .text("7.3 years")
+
+            svg
+            .append("rect")
+                .attr("x", x("U.S. Financial Crisis"))
+                .attr("y",181)
+                .attr("height", 246)
+                .attr("width", x.bandwidth() )
+                .style("fill", "#69b3a2")
+                .style("opacity", 0.5)
+                .on("mouseover", function(d){
+                tooltip.style("opacity", 1)
+                        .style("left", (d3.event.pageX)+"px")
+                        .style("top", (d3.event.pageY)+"px")
+                        .html("GDP Dropped 9.6" + "%");
+                })
+                .on("mouseout", function() { tooltip.style("opacity", 0) });
+            
+            svg.append("text")
+                .attr("x", x("U.S. Financial Crisis"))
+                .attr("y",171)
+                .text("5.5 years")
+
+        </script>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <p id = "presentation_text" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+        Now let's examine housing market trends in Bankruptcy filing in the years before and after the 2008 market crisis.
+        Examining bankrupcy filings is important because it enables us to understand how businesses (both small
+        and big) are impacted by economic downturns. Afterall, the chief form of destruction caused by crisies is manifested
+        in the ability or lack thereof for a capitalist society to function. 
+        <br>
+        <br>
+        <br>
+        <br>
+        The y-axis represents the number of bankruptcy filings in hundreds, and the x axis represents even increments of time. 
+    </p>
+
+    <div id = "param_buttons">
+        <button onclick="update(data1)">Phase 1 2000-2004</button>
+        <button onclick="update_two(data2)">Phase 2 2004-2010</button>
+        <button onclick="update_three(data3)">Phase 3 2010-2016</button>
+        <button onclick="update_four(data4)">Overall Graph and Conclusion</button>
+    </div>
+
+    <div id = "phase_description_div">
+        <p id = "phase_description" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+            
+        </p>
+    </div>
+
+    <div id="interactive_slideshow"></div>
+
+    <script>
+
+        var data1 = [
+            {ser1: 1, ser2: 3051.063498},
+            {ser1: 2, ser2: 2989.887805},
+            {ser1: 3, ser2: 3020.611687},
+            {ser1: 4, ser2: 3115.700718},        
+            {ser1: 5, ser2: 3590.536},
+            {ser1: 6, ser2: 3727.360636},
+            {ser1: 7, ser2: 3510.744552},
+            {ser1: 8, ser2: 3666.865424},
+            {ser1: 9, ser2: 3718.66369},
+            {ser1: 10, ser2: 3764.971873},
+            {ser1: 11, ser2: 3952.036766},
+            {ser1: 12, ser2: 4090.857705},
+            {ser1: 13, ser2: 4222.461232},
+            {ser1: 14, ser2: 3975.499434},
+            {ser1: 15, ser2: 3897.448726},
+            {ser1: 16, ser2: 4046.954278},
+            {ser1: 17, ser2: 3772.050977},
+            {ser1: 18, ser2: 3633.786589},
+            {ser1: 19, ser2: 4033.414742},
+            {ser1: 20, ser2: 4651.342813},
+            {ser1: 21, ser2: 5127.122507},
+            {ser1: 22, ser2: 6518.09864}
+        ];
+        
+        var data2 = [
+            {ser1: 1, ser2: 1163.34067},
+            {ser1: 2, ser2: 1540.246126},
+            {ser1: 3, ser2: 1586.580896},
+            {ser1: 4, ser2: 1705.387165},
+            {ser1: 5, ser2: 1934.935646},
+            {ser1: 6, ser2: 2066.760847},
+            {ser1: 7, ser2: 2029.768489},
+            {ser1: 8, ser2: 2187.912092},
+            {ser1: 9, ser2: 2441.085763},
+            {ser1: 10, ser2: 2653.387832},
+            {ser1: 11, ser2: 2715.37416},
+            {ser1: 12, ser2: 2940.313347},
+            {ser1: 13, ser2: 3241.1072},
+            {ser1: 14, ser2: 3548.491542},
+            {ser1: 15, ser2: 3641.397846},
+            {ser1: 16, ser2: 3710.329244},
+            {ser1: 17, ser2: 3816.139156},
+            {ser1: 18, ser2: 3884.599674},
+            {ser1: 19, ser2: 3908.76157}
+        ];
+
+        var data3 = [
+            {ser1: 1, ser2: 3748.284339},
+            {ser1: 2, ser2: 3611.057064},
+            {ser1: 3, ser2: 3474.210168},
+            {ser1: 4, ser2: 3309.686177},
+            {ser1: 5, ser2: 3194.87748},
+            {ser1: 6, ser2: 3181.518016},
+            {ser1: 7, ser2: 2968.261798},
+            {ser1: 8, ser2: 2844.034739},
+            {ser1: 9, ser2: 2802.303845},
+            {ser1: 10, ser2: 2683.838965},
+            {ser1: 11, ser2: 2672.658712},
+            {ser1: 12, ser2: 2561.088927},
+            {ser1: 13, ser2: 2446.65761},
+            {ser1: 14, ser2: 2351.931073},
+            {ser1: 15, ser2: 2327.943828},
+            {ser1: 16, ser2: 2223.888758},
+            {ser1: 17, ser2: 2168.295778},
+            {ser1: 18, ser2: 2094.738227},
+            {ser1: 19, ser2: 2048.757628},
+            {ser1: 20, ser2: 2037.121576},
+            {ser1: 21, ser2: 2327.943828},
+            {ser1: 22, ser2: 2003.699432},
+            {ser1: 23, ser2: 1912.244836},
+            {ser1: 24, ser2: 1911.496971}
+          
+        ];
+
+        var data4 = [
+        {ser1: 1, ser2: 3051.063498},
+            {ser1: 2, ser2: 2989.887805},
+            {ser1: 3, ser2: 3020.611687},
+            {ser1: 4, ser2: 3115.700718},        
+            {ser1: 5, ser2: 3590.536},
+            {ser1: 6, ser2: 3727.360636},
+            {ser1: 7, ser2: 3510.744552},
+            {ser1: 8, ser2: 3666.865424},
+            {ser1: 9, ser2: 3718.66369},
+            {ser1: 10, ser2: 3764.971873},
+            {ser1: 11, ser2: 3952.036766},
+            {ser1: 12, ser2: 4090.857705},
+            {ser1: 13, ser2: 4222.461232},
+            {ser1: 14, ser2: 3975.499434},
+            {ser1: 15, ser2: 3897.448726},
+            {ser1: 16, ser2: 4046.954278},
+            {ser1: 17, ser2: 3772.050977},
+            {ser1: 18, ser2: 3633.786589},
+            {ser1: 19, ser2: 4033.414742},
+            {ser1: 20, ser2: 4651.342813},
+            {ser1: 21, ser2: 5127.122507},
+            {ser1: 22, ser2: 6518.09864},
+            {ser1: 23, ser2: 1163.34067},
+            {ser1: 24, ser2: 1540.246126},
+            {ser1: 25, ser2: 1586.580896},
+            {ser1: 26, ser2: 1705.387165},
+            {ser1: 27, ser2: 1934.935646},
+            {ser1: 28, ser2: 2066.760847},
+            {ser1: 29, ser2: 2029.768489},
+            {ser1: 30, ser2: 2187.912092},
+            {ser1: 31, ser2: 2441.085763},
+            {ser1: 32, ser2: 2653.387832},
+            {ser1: 33, ser2: 2715.37416},
+            {ser1: 34, ser2: 2940.313347},
+            {ser1: 35, ser2: 3241.1072},
+            {ser1: 36, ser2: 3548.491542},
+            {ser1: 37, ser2: 3641.397846},
+            {ser1: 38, ser2: 3710.329244},
+            {ser1: 39, ser2: 3816.139156},
+            {ser1: 40, ser2: 3884.599674},
+            {ser1: 41, ser2: 3908.76157},
+            {ser1: 42, ser2: 3748.284339},
+            {ser1: 43, ser2: 3611.057064},
+            {ser1: 44, ser2: 3474.210168},
+            {ser1: 45, ser2: 3309.686177},
+            {ser1: 46, ser2: 3194.87748},
+            {ser1: 47, ser2: 3181.518016},
+            {ser1: 48, ser2: 2968.261798},
+            {ser1: 49, ser2: 2844.034739},
+            {ser1: 50, ser2: 2802.303845},
+            {ser1: 51, ser2: 2683.838965},
+            {ser1: 52, ser2: 2672.658712},
+            {ser1: 53, ser2: 2561.088927},
+            {ser1: 54, ser2: 2446.65761},
+            {ser1: 55, ser2: 2351.931073},
+            {ser1: 56, ser2: 2327.943828},
+            {ser1: 57, ser2: 2223.888758},
+            {ser1: 58, ser2: 2168.295778},
+            {ser1: 59, ser2: 2094.738227},
+            {ser1: 60, ser2: 2048.757628},
+            {ser1: 61, ser2: 2037.121576},
+            {ser1: 62, ser2: 2327.943828},
+            {ser1: 63, ser2: 2003.699432},
+            {ser1: 64, ser2: 1912.244836},
+            {ser1: 65, ser2: 1911.496971}
+
+        ];
+        
+        var svg = d3.select("#interactive_slideshow")
+            .append("svg")
+            .attr("width", 465)
+            .attr("height", 403)
+            .style("display", "block")
+            .style("margin", "auto")
+            .append("g")
+            .attr("transform",
+                    "translate(" + 54 + "," + 12 + ")");
+        
+        var x = d3.scaleLinear().range([0,400]);
+        var xline = d3.axisBottom().scale(x);
+        svg.append("g")
+            .attr("transform", "translate(0," + 372 + ")")
+            .attr("class","graphx")
+        
+        var y = d3.scaleLinear().range([372, 0]);
+        var yline = d3.axisLeft().scale(y);
+        svg.append("g")
+            .attr("class","graphy")
+        
+        function update(data) {    
+            var xlim = d3.max(data, function(d) { return d.ser1 });
+            var xdom = [0, xlim]
+            x.domain(xdom);
+            svg.selectAll(".graphx").transition()
+            .call(xline);
+
+            var ylim = d3.max(data, function(d) { return d.ser2  });
+            var ydom = [0, ylim]
+            y.domain(ydom);
+            svg.selectAll(".graphy")
+            .transition()
+            .call(yline);
+        
+            svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 })
+            .enter()
+            .append("path")
+            .attr("class","graphshift")
+            .merge(svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 }))
+            .transition()
+            .attr("d", d3.line()
+                .x(function(d) { return x(d.ser1); })
+                .y(function(d) { return y(d.ser2); }))
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2.5);
+            
+                document.getElementById("phase_description").innerHTML = "As we can see, the number of bankruptcy filings between the years of 2000 and 2004 increased greatly. In addition, foreclosure starts increased and the CoreLogic national home price index increased as well. Delinquent morgages however, remained constant during this time period. This tumultuous increase in bankrupcy filings is most likely a result of the fairly long-lasting impact of the dotcom bust that took place in 1999.";
+        }
+        
+        function update_two(data) {    
+            var xlim = d3.max(data, function(d) { return d.ser1 });
+            var xdom = [0, xlim]
+            x.domain(xdom);
+            svg.selectAll(".graphx").transition()
+            .call(xline);
+
+            var ylim = d3.max(data, function(d) { return d.ser2  });
+            var ydom = [0, ylim]
+            y.domain(ydom);
+            svg.selectAll(".graphy")
+            .transition()
+            .call(yline);
+        
+            svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 })
+            .enter()
+            .append("path")
+            .attr("class","graphshift")
+            .merge(svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 }))
+            .transition()
+            .attr("d", d3.line()
+                .x(function(d) { return x(d.ser1); })
+                .y(function(d) { return y(d.ser2); }))
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2.5);
+            
+                document.getElementById("phase_description").innerHTML = "There was a sudden decrease in the number of bankruptcy filings in 2006. This is because of the Bankruptcy Abuse Prevention and Consumer Protection Act (BAPCPA) which added extra steps to the process of filing for bankruptcy. After 2006, the number of bankruptcy filings continued to grow and peaked just after 2008 when the financial crisis took place. Foreclosure starts and seriously delinquent mortgages also increased until about 2008-2009.";
+        }
+
+        function update_three(data) {    
+            var xlim = d3.max(data, function(d) { return d.ser1 });
+            var xdom = [0, xlim]
+            x.domain(xdom);
+            svg.selectAll(".graphx").transition()
+            .call(xline);
+
+            var ylim = d3.max(data, function(d) { return d.ser2  });
+            var ydom = [0, ylim]
+            y.domain(ydom);
+            svg.selectAll(".graphy")
+            .transition()
+            .call(yline);
+        
+            svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 })
+            .enter()
+            .append("path")
+            .attr("class","graphshift")
+            .merge(svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 }))
+            .transition()
+            .attr("d", d3.line()
+                .x(function(d) { return x(d.ser1); })
+                .y(function(d) { return y(d.ser2); }))
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2.5);
+            
+                document.getElementById("phase_description").innerHTML = "After 2010, the number of bankruptcy filings steadily decreased. This is due to the massive effort by the US government to introduce programs that help businesses scu as the Troubled Asset Relief Program (TARP), which helped pump money into the financial sector. Foreclosure starts and seriously delinquent mortgages have all also decreased. The CoreLogic national home price index, however, has continued to increase to almost as high as it was in 2006.";
+        }
+
+        function update_four(data) {    
+            var xlim = d3.max(data, function(d) { return d.ser1 });
+            var xdom = [0, xlim]
+            x.domain(xdom);
+            svg.selectAll(".graphx").transition()
+            .call(xline);
+
+            var ylim = d3.max(data, function(d) { return d.ser2  });
+            var ydom = [0, ylim]
+            y.domain(ydom);
+            svg.selectAll(".graphy")
+            .transition()
+            .call(yline);
+        
+            svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 })
+            .enter()
+            .append("path")
+            .attr("class","graphshift")
+            .merge(svg.selectAll(".graphshift")
+            .data([data], function(d){ return d.ser1 }))
+            .transition()
+            .attr("d", d3.line()
+                .x(function(d) { return x(d.ser1); })
+                .y(function(d) { return y(d.ser2); }))
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2.5);
+            
+                document.getElementById("phase_description").innerHTML = "This is the overall plot of all three phases plotted in one graph. In conclusion, we must continue to monitor trends in bankruptcy filings as they can help us identify core economic issues. By looking at past trends, we can learn from the impact of past cirumstances on both the social and financial environment.";
+        }
+
+        // At the beginning, I run the update function on the first dataset:
+        update(data1)
+        
+    </script>
+
+</body></html>
+
